@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head></head>
+    <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Search</title></title>
+
+    <style></style>
+        body {
+        font-family: Arial, sans-serif;
+        background: #f2f2f2;
+        padding: 30px;
+      }
+
+      .box {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+
+      .student {
+        background: #f7f7f7;
+        padding: 15px;
+        border-radius: 8px;
+        line-height: 1.7;
+      }
+
+      .error {
+        color: #c00;
+      }
+</html>style>
+</head>
+
+<body></body>
+
+<div class="box">
+    <h2>Student Search</h2></h2>
+
+    <input
+          type="text"
+          id="search"
+          placeholder="Name ya Roll Number search karo..."
+        >
+
+    <div id="result">Data loading...</div>div>
+</div>div>
+
+<script></script>
+  // GitHub RAW file
+    const DATA_URL =
+        "https://raw.githubusercontent.com/oggy74821-fuck/hatt-bhadwa/main/nikhil%20gandu";
+
+          let students = [];
+
+            async function loadData() {
+                try {
+                      const response = await fetch(DATA_URL);
+
+                            if (!response.ok) {
+                                    throw new Error("Data fetch nahi hua");
+                                          }
+
+                                                students = await response.json();
+
+                                                      document.getElementById("result").textContent =
+                                                              "Student search karne ke liye naam ya roll number enter karo.";
+
+                                                                  } catch (error) {
+                                                                        document.getElementById("result").innerHTML =
+                                                                                '<p class="error">Data load nahi hua. GitHub file ka JSON valid hai ya nahi check karo.</p>p>';
+
+                                                                                      console.error(error);
+                                                                                          }
+                                                                                            }
+
+                                                                                              document.getElementById("search").addEventListener("input", function () {
+
+                                                                                                  const query = this.value.trim().toLowerCase();
+
+                                                                                                      if (!query) {
+                                                                                                            document.getElementById("result").textContent =
+                                                                                                                    "Student search karne ke liye naam ya roll number enter karo.";
+                                                                                                                          return;
+                                                                                                                              }
+                                                                                                                              
+                                                                                                                                  const results = students.filter(student => {
+                                                                                                                                  
+                                                                                                                                        const name = String(student.name || "").toLowerCase();
+                                                                                                                                              const roll = String(student.roll_no || "");
+                                                                                                                                              
+                                                                                                                                                    return name.includes(query) || roll === query;
+                                                                                                                                                        });
+                                                                                                                                                        
+                                                                                                                                                            if (results.length === 0) {
+                                                                                                                                                                  document.getElementById("result").innerHTML =
+                                                                                                                                                                          '<p class="error">Student nahi mila.</p>p>';
+                                                                                                                                                                                return;
+                                                                                                                                                                                    }
+                                                                                                                                                                                    
+                                                                                                                                                                                        document.getElementById("result").innerHTML =
+                                                                                                                                                                                              results.map(student => `
+                                                                                                                                                                                                      <div class="student">
+                                                                                                                                                                                                                  <strong>Name:</strong> ${escapeHTML(student.name)}<br></strong>
+                                                                                                                                                                                                                  <strong>Roll No:</strong> ${escapeHTML(student.roll_no)}<br></strong>
+                                                                                                                                                                                                                  <strong>Father Name:</strong> ${escapeHTML(student.father_name)}<br></strong>
+                                                                                                                                                                                                                  <strong>Mother Name:</strong> ${escapeHTML(student.mother_name)}<br></strong>
+                                                                                                                                                                                                                  <strong>Address:</strong> ${escapeHTML(student.address)}<br></strong>
+                                                                                                                                                                                                                  <strong>Phone:</strong> ${escapeHTML(student.phone_number)}</strong>
+                                                                                                                                                                                                                </div>div>
+                                                                                                                                                                                                                      `).join("<br>");
+                                                                                                                                                                                                                        });
+                                                                                                                                                                                                                        
+                                                                                                                                                                                                                          function escapeHTML(value) {
+                                                                                                                                                                                                                              return String(value)
+                                                                                                                                                                                                                                    .replaceAll("&", "&amp;")
+                                                                                                                                                                                                                                          .replaceAll("<", "&lt;")
+                                                                                                                                                                                                                                                  .replaceAll(">", "&gt;")
+                                                                                                                                                                                                                                                  .replaceAll('"', "&quot;")
+                                                                                                                                                                                                                                                  .replaceAll("'", "&#039;");
+                                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                              loadData();
+                                                                                                                                                                                                                                            </script>
+                                                                                                                                                                                                                                            
+                                                                                                                                                                                                                                            </body>
+                                                                                                                                                                                                                                            </html>
